@@ -1,0 +1,257 @@
+## This is the main quick and dirty scraping I did for women's volleyball,
+##    where I first collected the URLS for all Division 1 teams each year
+##    and then pulled out the team "tag" from each team to be able to
+##    scrape the stats pages by numeric tag.
+
+## I've included some comments in here as it goes, but it may be very
+##    difficult to follow; don't worry if it is! It probably could have
+##    been coded much, much more efficiently.
+
+# WVB Scraping, 2000-2020
+
+library(xml2)
+library(dplyr)
+library(stringr)
+library(tidyverse)
+
+## All urls by year for Division 1 Women's Volleyball Teams
+
+urls <- c("https://stats.ncaa.org/team/inst_team_list?academic_year=2020&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2019&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2018&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2017&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2016&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2015&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2014&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2013&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2012&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2011&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2010&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2009&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2008&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2007&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2006&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2005&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2004&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2003&conf_id=-1&division=1&sport_code=WVB",
+          "https://stats.ncaa.org/team/inst_team_list?academic_year=2002&conf_id=-1&division=1&sport_code=WVB")
+
+years <- seq(2020,2002)
+
+## Defining a getexpr function to pull out specific substrings from strings,
+##    which we'll need to get the numeric team tags
+
+getexpr = function(s,g)substring(s,g,g+attr(g,'match.length')-1)
+
+
+## Run this for the first year, 2019-2020
+i=1
+
+## Start by reading in the HTML code of the first URL
+## We need the links to each team page, and more importantly, the tags contained
+##    in those links
+
+html <- paste(readLines(urls[i]), collapse="\n")
+
+## Find URLs
+matched <- str_match_all(html, "<a href=\"(.*?)\"")
+
+## Pull out relevant info from links
+links <- matched[[1]][, 2]
+team_links <- links[which(str_detect(links,"26172")):length(links)]
+team_codes <- sapply(str_split(team_links,"/"), "[[", 3)
+year_code <- str_split(team_links[1],"/")[[1]][4]
+year <- years[i]
+
+## Regular expression to identify the code needed
+pagetext <- readLines(urls[i])
+year_pat = paste("/",year_code,"([^<]*)</a>",sep = "")
+datalines = grep(year_pat,pagetext[1:length(pagetext)],value=TRUE)
+
+## Find all matches
+gg = gregexpr(year_pat,datalines)
+matches = mapply(getexpr,datalines,gg)
+result = gsub(year_pat,'\\1',matches)
+names(result) = NULL
+
+## Clean up the names a little
+result = str_replace_all(result,"\\\">","")
+result <- gsub("\">", '', result)
+result <- gsub("&amp;", '&', result)
+result <- gsub("&#x27;", "'", result)
+
+## Print out the beginning of a table with the year, name of the school, numeric
+##    team tag, and the ID number for this year's info (part of URL construction)
+##    later
+
+code_table <- cbind(rep(year,length(team_links)),result,team_codes,rep(year_code,length(team_links)))
+
+## Repeat the above process for all years, 2019 down to 2002
+## Note that you don't really need to run this for loop to see how the code works,
+##    so you may want to save yourself the time/effort!
+
+for(i in 2:length(urls))
+  
+  {
+  
+  html <- paste(readLines(urls[i]), collapse="\n")
+  matched <- str_match_all(html, "<a href=\"(.*?)\"")
+  links <- matched[[1]][, 2]
+  team_links <- links[which(str_detect(links,"26172")):length(links)]
+  team_codes <- sapply(str_split(team_links,"/"), "[[", 3)
+  year_code <- str_split(team_links[1],"/")[[1]][4]
+  year <- years[i]
+  
+  pagetext <- readLines(urls[i])
+  year_pat = paste("/",year_code,"([^<]*)</a>",sep = "")
+  datalines = grep(year_pat,pagetext[1:length(pagetext)],value=TRUE)
+  
+  gg = gregexpr(year_pat,datalines)
+  matches = mapply(getexpr,datalines,gg)
+  result = gsub(year_pat,'\\1',matches)
+  names(result) = NULL
+  result = str_replace_all(result,"\\\">","")
+  result <- gsub("\">", '', result)
+  result <- gsub("&amp;", '&', result)
+  result <- gsub("&#x27;", "'", result)
+  
+  temp_table <- cbind(rep(year,length(team_links)),result,team_codes,rep(year_code,length(team_links)))
+  
+  code_table <- rbind(code_table,temp_table)
+  
+}
+
+colnames(code_table) <- c("Year", "School", "Code", "Tag")
+
+
+## Data Scraping
+
+## Construct the first appropriate URL using the information from the table
+
+url <- paste("https://stats.ncaa.org/team/",code_table[1,3],"/",code_table[1,4],sep="")
+
+## Read in the stats data from the URL, pulling data tables as necessary
+## Note that this is the stats for the overall team, including wins/losses,
+##    attendance at games, etc.
+## The table is formatted strangely on the site, so this code includes some cleanup!
+
+webpage <- xml2::read_html(url)
+table_wins <- rvest::html_table(webpage, fill=TRUE)[[2]]
+table_wins <- table_wins[seq(1,dim(table_wins)[1],by=2),]
+table_wins$Attendance = gsub(",","",table_wins$Attendance)
+table_wins[is.na(table_wins)] <- 0
+table_wins <- table_wins[table_wins$Result != "Ppd", ]
+table_wins <- separate(table_wins,"Result", c("Team Result","Sets Lost"),sep = "-")
+table_wins <- separate(table_wins,"Team Result", c("Result","Sets Won"),sep = " ")
+
+## Build some of the variables from the data given
+
+attend <- sum(as.numeric(table_wins$Attendance))
+matches_won <- sum(str_detect(table_wins$Result,"W"))
+matches_lost <- sum(str_detect(table_wins$Result,"L"))
+sets_won <- sum(as.numeric(table_wins$`Sets Won`))
+sets_lost <- sum(as.numeric(table_wins$`Sets Lost`))
+
+## Create the overall team table
+team_table <- data.frame("Year"=code_table[1,1],"School"=code_table[1,2],"Attendance"=attend,
+                         "Wins"=matches_won,"Losses"=matches_lost,"Sets_Won"=sets_won,"Sets_Lost"=sets_lost)
+
+## Run through all teams in the full code table from 2020-2002
+## Again, you may not want to run this for time/effort reasons, but probably at least
+##    run it for a couple of the lines to get a better idea of what's going on
+
+for(i in 2:dim(code_table)[1])
+  
+{
+  url <- paste("https://stats.ncaa.org/team/",code_table[i,3],"/",code_table[i,4],sep="")
+  
+  webpage <- xml2::read_html(url)
+  table_wins <- rvest::html_table(webpage, fill=TRUE)[[2]]
+  table_wins <- table_wins[seq(1,dim(table_wins)[1], by=2),]
+  table_wins$Attendance = gsub(",","",table_wins$Attendance)
+  table_wins$Attendance = as.numeric(table_wins$Attendance)
+  table_wins[is.na(table_wins)] <- 0
+  table_wins <- table_wins[table_wins$Result != "Ppd", ]
+  table_wins <- separate(table_wins,"Result", c("Team Result","Sets Lost"),sep = "-")
+  table_wins <- separate(table_wins,"Team Result", c("Result","Sets Won"),sep = " ")
+  
+  attend <- sum(as.numeric(table_wins$Attendance))
+  matches_won <- sum(str_detect(table_wins$Result,"W"))
+  matches_lost <- sum(str_detect(table_wins$Result,"L"))
+  sets_won <- sum(as.numeric(table_wins$`Sets Won`))
+  sets_lost <- sum(as.numeric(table_wins$`Sets Lost`))
+  
+  temp_table <- data.frame("Year"=code_table[i,1],"School"=code_table[i,2],"Attendance"=attend,
+                      "Wins"=matches_won,"Losses"=matches_lost,"Sets_Won"=sets_won,"Sets_Lost"=sets_lost)
+  
+  team_table <- rbind(team_table,temp_table)
+  
+  
+}
+
+
+## Player Stats
+
+## Finally, we want to grab all stats for individual players
+## We construct these URLs from the code table in the same way, though the URL is
+##    now different
+
+url <- paste("https://stats.ncaa.org/team/",code_table[1,3],"/stats/",code_table[1,4],sep="")
+
+
+## Less cleanup to do here, but the same basic idea: we're pulling information
+##    from the data table on the site
+
+## Note that the last three lines of the table are summaries of the full information
+##    so they aren't actually three additional players, and we separate them out
+
+webpage <- xml2::read_html(url)
+table_NCAA <- rvest::html_table(webpage)[[2]] %>% 
+  tibble::as_tibble(.name_repair = "unique")
+table_total <- data.frame("Year" = code_table[i,1], "School" = code_table[1,2],table_NCAA)
+table_players <- table_total[1:(dim(table_NCAA)[1]-3),]
+table_team <- table_total[(dim(table_NCAA)[1]-2):dim(table_NCAA)[1],]
+
+## Repeat for all teams in the full code table from 2020 to 2002:
+ 
+for(i in 2:dim(code_table)[1]){
+  
+  url <- paste("https://stats.ncaa.org/team/",code_table[i,3],"/stats/",code_table[i,4],sep="")
+  
+  webpage <- xml2::read_html(url)
+  table_NCAA <- rvest::html_table(webpage)[[2]] %>% 
+    tibble::as_tibble(.name_repair = "unique")
+  table_total <- data.frame("Year" = code_table[i,1], "School" = code_table[i,2],table_NCAA)
+  table_players <- rbind(table_players,table_total[1:(dim(table_total)[1]-3),])
+  table_team <- rbind(table_team,table_total[(dim(table_NCAA)[1]-2):dim(table_total)[1],])
+  
+  
+}
+
+## Some last bit of cleanup: NA values should really be blank, since no info
+##    was present, and height should be numeric, not given as "5-2"
+
+table_players[is.na(table_players)]<-""
+
+strsplit(table_players$Ht[1], "[-]")[[1]][2]
+
+Ht2 = rep(0,dim(table_players)[1])
+
+for(i in 1:dim(table_players)[1]){
+  
+  if(nchar(table_players$Ht[i])>2){
+    
+    Ht2[i]=as.numeric(strsplit(table_players$Ht[i], "[-]")[[1]][1])*12+as.numeric(strsplit(table_players$Ht[i], "[-]")[[1]][2])
+    
+  }
+  else {Ht2[i] = table_players$Ht[i]}  
+  
+}
+
+all_players <- data.frame(table_players,Ht2 = as.numeric(Ht2))
+
+## Finally, write the data to different files for use in analysis:
+
+write.csv(all_players,"WVB Player Stats", na = "")
+write.csv(table_team, "WVB Aggregated Team Stats.csv", na = "")
+write.csv(team_table, "WVB Team Data.csv", na = "")
