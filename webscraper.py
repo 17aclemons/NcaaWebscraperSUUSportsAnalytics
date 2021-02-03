@@ -28,8 +28,10 @@ urls = ["https://stats.ncaa.org/team/inst_team_list?academic_year=2020&conf_id=-
           "https://stats.ncaa.org/team/inst_team_list?academic_year=2003&conf_id=-1&division=1&sport_code=WVB",
           "https://stats.ncaa.org/team/inst_team_list?academic_year=2002&conf_id=-1&division=1&sport_code=WVB"]
 
+teamUrls = []
 
 
+#team tags are in a table body, td tag and a tag
 
 
 #pull tags to get url for each team that is d1 for that year
