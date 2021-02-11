@@ -40,9 +40,25 @@ class NcaaSpider(scrapy.Spider):
 
         # gets the team number stuff from response
 
-        # team tags are in a table body, td tag and a tag
-        # pull tags to get url for each team that is d1 for that year
-        # pull schedule results for that team
-        # get player statistics
+# gets the team number stuff from response
+# so we have the URL for each team in the year
+#I think the next move is to append the individual team URL's to start URL, if scrapy works like that
+
+# def parse(self, response):
+#         products = response.xpath("//*[contains(@class, 'ph-summary-entry-ctn')]/a/@href").extract()
+#         for p in products:
+#             url = urljoin(response.url, p)
+#             yield scrapy.Request(url, callback=self.parse_product)
+# def parse_product(self, response):
+#         for info in response.css('div.ph-product-container'):
+#             yield {
+#                 'product_name': info.css('h2.ph-product-name::text').extract_first(),
+#                 'product_image': info.css('div.ph-product-img-ctn a').xpath('@href').extract(),
+#                 'sku': info.css('span.ph-pid').xpath('@prod-sku').extract_first(),
+#                 'short_description': info.css('div.ph-product-summary::text').extract_first(),
+#                 'price': info.css('h2.ph-product-price > span.price::text').extract_first(),
+#                 'long_description': info.css('div#product_tab_1').extract_first(),
+#                 'specs': info.css('div#product_tab_2').extract_first(),
+#             }
 
         # bonus points if you can pull that team statistics table
