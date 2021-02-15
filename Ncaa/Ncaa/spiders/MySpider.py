@@ -37,13 +37,20 @@ class NcaaSpider(scrapy.Spider):
         new_url = "https://stats.ncaa.org"
         for i in team:
             url = new_url + i
+            yield scrapy.Request(url, callback = self.parse_team)
 
-        # gets the team number stuff from response
+    def parse_team(self, response):
+        #figure out how to get all rows in the table
+        for schedule in response.css('html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr').getall()#need to iterate by 2
+        yield {
+         'date', schedule.css('td::text').get(),
+         #'opponent', schedule.css()
+         }
 
-# gets the team number stuff from response
-# so we have the URL for each team in the year
-#I think the next move is to append the individual team URL's to start URL, if scrapy works like that
+        #get schedule results
+#response.css('html>body[id=body]>div[id=contentarea]>table>tbody>tr>td')
 
+#stack overflow example code
 # def parse(self, response):
 #         products = response.xpath("//*[contains(@class, 'ph-summary-entry-ctn')]/a/@href").extract()
 #         for p in products:
@@ -60,5 +67,4 @@ class NcaaSpider(scrapy.Spider):
 #                 'long_description': info.css('div#product_tab_1').extract_first(),
 #                 'specs': info.css('div#product_tab_2').extract_first(),
 #             }
-
-        # bonus points if you can pull that team statistics table
+# bonus points if you can pull that team statistics table
