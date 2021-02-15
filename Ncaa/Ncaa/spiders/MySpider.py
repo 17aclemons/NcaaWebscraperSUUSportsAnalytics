@@ -39,15 +39,17 @@ class NcaaSpider(scrapy.Spider):
             url = new_url + i
             yield scrapy.Request(url, callback = self.parse_team)
 
-    def parse_team(self, response):
+    #def parse_team(self, response):
         #figure out how to get all rows in the table
-        for schedule in response.css('html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr').getall()#need to iterate by 2
-        yield {
-         'date', schedule.css('td::text').get(),
-         #'opponent', schedule.css()
-         }
+        #schedule = response.css('html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr').getall()#need to iterate by 2
+        #schedule is a list, I need the 0 and 5 iterate by 6
+            
+            #yield {
+            #   'date', schedule.css('td::text').get(),
+            #   'opponent', schedule.css()
+            #   }
 
-        #get schedule results
+#get schedule results
 #response.css('html>body[id=body]>div[id=contentarea]>table>tbody>tr>td')
 
 #stack overflow example code
