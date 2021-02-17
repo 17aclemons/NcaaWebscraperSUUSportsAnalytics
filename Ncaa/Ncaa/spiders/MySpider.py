@@ -37,22 +37,30 @@ class NcaaSpider(scrapy.Spider):
         new_url = "https://stats.ncaa.org"
         for i in team:
             url = new_url + i
-            yield scrapy.Request(url, callback = self.parse_team)
+            yield scrapy.Request(url, callback=self.parse_schedule)
 
-    #def parse_team(self, response):
-        #figure out how to get all rows in the table
-        #schedule = response.css('html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr').getall()#need to iterate by 2
-        #schedule is a list, I need the 0 and 5 iterate by 6
-            
-            #yield {
-            #   'date', schedule.css('td::text').get(),
-            #   'opponent', schedule.css()
-            #   }
+    def parse_schedule(self, response):
+        schedule = response.css(
+            'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
+        # need to get team name for csv
+        teamName = response.css(
+            'html>body[id=body]>div[id=contentarea]>fieldset>legend>a::text').get()
+        # season =
+        # loop on the row and then extract each thing specifically? if that works
+        for s in schedule:
+            yield {
+                'date': s.xpath('td[0]//text()').extract(),
+                'opponent': s.xpath('td[1]//text()').extract(),
+                'result': s.xpath('td[2]//text()').extract(),
+                'attendance:': s.xpath('td[3]//text()').extract()
+            }
+# 'opponent': schedule[s].css('td>a::text').get(),
+# 'result': schedule[s].css('td>a[class=skipMask]::text').get(),
 
-#get schedule results
-#response.css('html>body[id=body]>div[id=contentarea]>table>tbody>tr>td')
+# get schedule results
+# response.css('html>body[id=body]>div[id=contentarea]>table>tbody>tr>td')
 
-#stack overflow example code
+# stack overflow example code
 # def parse(self, response):
 #         products = response.xpath("//*[contains(@class, 'ph-summary-entry-ctn')]/a/@href").extract()
 #         for p in products:
