@@ -40,41 +40,27 @@ class NcaaSpider(scrapy.Spider):
             yield scrapy.Request(url, callback=self.parse_schedule)
 
     def parse_schedule(self, response):
-        schedule = response.css(
-            'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
-        # need to get team name for csv
         teamName = response.css(
             'html>body[id=body]>div[id=contentarea]>fieldset>legend>a::text').get()
-        # season =
-        # loop on the row and then extract each thing specifically? if that works
-        for s in schedule:
-            yield {
-                'date': s.xpath('td[0]//text()').extract(),
-                'opponent': s.xpath('td[1]//text()').extract(),
-                'result': s.xpath('td[2]//text()').extract(),
-                'attendance:': s.xpath('td[3]//text()').extract()
-            }
-# 'opponent': schedule[s].css('td>a::text').get(),
-# 'result': schedule[s].css('td>a[class=skipMask]::text').get(),
 
-# get schedule results
-# response.css('html>body[id=body]>div[id=contentarea]>table>tbody>tr>td')
+        schedule = response.css(
+            'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
+        results = {
+            'date': [],
+            'opponent': [],
+            'result': [],
+            'attendance': [],
+        }
 
-# stack overflow example code
-# def parse(self, response):
-#         products = response.xpath("//*[contains(@class, 'ph-summary-entry-ctn')]/a/@href").extract()
-#         for p in products:
-#             url = urljoin(response.url, p)
-#             yield scrapy.Request(url, callback=self.parse_product)
-# def parse_product(self, response):
-#         for info in response.css('div.ph-product-container'):
-#             yield {
-#                 'product_name': info.css('h2.ph-product-name::text').extract_first(),
-#                 'product_image': info.css('div.ph-product-img-ctn a').xpath('@href').extract(),
-#                 'sku': info.css('span.ph-pid').xpath('@prod-sku').extract_first(),
-#                 'short_description': info.css('div.ph-product-summary::text').extract_first(),
-#                 'price': info.css('h2.ph-product-price > span.price::text').extract_first(),
-#                 'long_description': info.css('div#product_tab_1').extract_first(),
-#                 'specs': info.css('div#product_tab_2').extract_first(),
-#             }
+        for s in range(0, len(schedule), 2):
+            results['date'].append(schedule[s].xpath('td//text()').get())
+            results['opponent'].append(schedule[s].xpath('td/a//text()').get())
+
+        results['result'].append(schedule.css(
+            'td>a[class=skipMask]::text')).getall()
+        results['attendance'].append(
+            schedule.css('td[align=right]::text').getall())
+
+        return results
+
 # bonus points if you can pull that team statistics table
