@@ -9,7 +9,7 @@ import scrapy
 
 
 class NcaaSpider(scrapy.Spider):
-    name = "draft"
+    name = "ncaa"
 
     start_urls = ["https://stats.ncaa.org/team/inst_team_list?academic_year=2020&conf_id=-1&division=1&sport_code=WVB",
                   # "https://stats.ncaa.org/team/inst_team_list?academic_year=2019&conf_id=-1&division=1&sport_code=WVB",
@@ -42,25 +42,21 @@ class NcaaSpider(scrapy.Spider):
     def parse_schedule(self, response):
         teamName = response.css(
             'html>body[id=body]>div[id=contentarea]>fieldset>legend>a::text').get()
-
+        season = response.css(
+            'html>body[id=body]>div[id=contentarea]>fieldset>div>form[id=change_sport_form]>select[id=year_list]>option[selected=selected]::text').get()
+        sport = response.css(
+            'html>body[id=body]>div[id=contentarea]>fieldset>div>form[id=change_sport_form]>select[id=sport_list]>option[selected=selected]::text').get()
         schedule = response.css(
             'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
-
-        for s in response.css(
-            'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr'):
+        for s in range(0, len(schedule), 2):
             yield {
-                'date' : s.xpath('td//text()').get(),
-                'oppenent' : s.xpath('td/a//text()').get(),
-                'result' : s.css('td>a[class=skipMask]::text').get(),
-                'attendance' : s.css('td[align=right]::text').get()
+                'teamName': teamName,
+                'season': season,
+                'sport': sport,
+                'date': schedule[s].xpath('td//text()').get(),
+                'opponent': schedule[s].xpath('td/a//text()').get(),
+                'result': schedule[s].css('td>a[class=skipMask]::text').get(),
+                'attendance': schedule[s].css('td[align=right]::text').get()
             }
-
+        # get the team summary statitics table, export using a json line object
 # bonus points if you can pull that team statistics table
-
-"""  def parse(self, response):
-        for quote in response.css('div.quote'):
-            yield {
-                'text': quote.css('span.text::text').get(),
-                'author': quote.css('small.author::text').get(),
-                'tags': quote.css('div.tags a.tag::text').getall(),
-            } """
