@@ -45,22 +45,22 @@ class NcaaSpider(scrapy.Spider):
 
         schedule = response.css(
             'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
-        results = {
-            'date': [],
-            'opponent': [],
-            'result': [],
-            'attendance': [],
-        }
 
-        for s in range(0, len(schedule), 2):
-            results['date'].append(schedule[s].xpath('td//text()').get())
-            results['opponent'].append(schedule[s].xpath('td/a//text()').get())
-
-        results['result'].append(schedule.css(
-            'td>a[class=skipMask]::text')).getall()
-        results['attendance'].append(
-            schedule.css('td[align=right]::text').getall())
-
-        return results
+        for s in response.css(
+            'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr'):
+            yield {
+                'date' : s.xpath('td//text()').get(),
+                'oppenent' : s.xpath('td/a//text()').get(),
+                'result' : s.css('td>a[class=skipMask]::text').get(),
+                'attendance' : s.css('td[align=right]::text').get()
+            }
 
 # bonus points if you can pull that team statistics table
+
+"""  def parse(self, response):
+        for quote in response.css('div.quote'):
+            yield {
+                'text': quote.css('span.text::text').get(),
+                'author': quote.css('small.author::text').get(),
+                'tags': quote.css('div.tags a.tag::text').getall(),
+            } """
