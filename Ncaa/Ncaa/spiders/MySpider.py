@@ -48,11 +48,13 @@ class NcaaSpider(scrapy.Spider):
             'html>body[id=body]>div[id=contentarea]>fieldset>div>form[id=change_sport_form]>select[id=sport_list]>option[selected=selected]::text').get()
         schedule = response.css(
             'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
+        # coach =
         for s in range(0, len(schedule), 2):
             yield {
                 'teamName': teamName,
                 'season': season,
                 'sport': sport,
+                'headCoach': coach,
                 'date': schedule[s].xpath('td//text()').get(),
                 'opponent': schedule[s].xpath('td/a//text()').get(),
                 'result': schedule[s].css('td>a[class=skipMask]::text').get(),
@@ -68,6 +70,8 @@ class NcaaSpider(scrapy.Spider):
                 'rank': row.xpath('td[2]/text()').get(),
                 'value': row.xpath('td[3]/text()').get()
             }
-        # I think this is where I need to jump to get the team stats
-
+        # I think this is where I need to jump to get the team stats link and pull those stats
+        # Separate Player and Team Stats
+        # Bonus points
+            # pull the coaches name
 # bonus points if you can pull that team statistics table
