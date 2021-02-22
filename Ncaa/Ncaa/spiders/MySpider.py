@@ -37,9 +37,9 @@ class NcaaSpider(scrapy.Spider):
         new_url = "https://stats.ncaa.org"
         for i in team:
             url = new_url + i
-            yield scrapy.Request(url, callback=self.parse_schedule)
+            yield scrapy.Request(url, callback=self.parse_scheduleAndStats)
 
-    def parse_schedule(self, response):
+    def parse_scheduleAndStats(self, response):
         teamName = response.css(
             'html>body[id=body]>div[id=contentarea]>fieldset>legend>a::text').get()
         season = response.css(
@@ -58,5 +58,16 @@ class NcaaSpider(scrapy.Spider):
                 'result': schedule[s].css('td>a[class=skipMask]::text').get(),
                 'attendance': schedule[s].css('td[align=right]::text').get()
             }
-        # get the team summary statitics table, export using a json line object
+
+        teamStats = response.xpath(
+            '//html/body/div[2]/table/tr/td[2]/table[1]/tr')
+
+        for row in teamStats:
+            yield {
+                'stat': row.xpath('td[1]/a/text()').get(),
+                'rank': row.xpath('td[2]/text()').get(),
+                'value': row.xpath('td[3]/text()').get()
+            }
+        # I think this is where I need to jump to get the team stats
+
 # bonus points if you can pull that team statistics table
