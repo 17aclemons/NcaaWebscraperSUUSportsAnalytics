@@ -48,7 +48,7 @@ class NcaaSpider(scrapy.Spider):
             'html>body[id=body]>div[id=contentarea]>fieldset>div>form[id=change_sport_form]>select[id=sport_list]>option[selected=selected]::text').get()
         schedule = response.css(
             'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
-        # coach =
+        coach = response.xpath('//html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
         for s in range(0, len(schedule), 2):
             yield {
                 'teamName': teamName,
