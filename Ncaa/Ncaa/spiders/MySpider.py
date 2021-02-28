@@ -48,7 +48,8 @@ class NcaaSpider(scrapy.Spider):
             'html>body[id=body]>div[id=contentarea]>fieldset>div>form[id=change_sport_form]>select[id=sport_list]>option[selected=selected]::text').get()
         schedule = response.css(
             'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
-        # coach =
+        coach = response.xpath(
+            '//html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
         for s in range(0, len(schedule), 2):
             yield {
                 'teamName': teamName,
@@ -70,8 +71,16 @@ class NcaaSpider(scrapy.Spider):
                 'rank': row.xpath('td[2]/text()').get(),
                 'value': row.xpath('td[3]/text()').get()
             }
-        # I think this is where I need to jump to get the team stats link and pull those stats
+        # get the URL for the Team Stats
+        stats = response.xpath('//html/body/div[2]/a[2]/@href').get()
+
+        # make a new url for Scrapy
+        url = "https://stats.ncaa.org" + stats
+
+        yield scrapy.Request(url, callback=self.parseStats)
+
+    # https://stats.ncaa.org/team/817/stats/14942 Team stats link
+
+    def parseStats(self, response):
         # Separate Player and Team Stats
-        # Bonus points
-            # pull the coaches name
-# bonus points if you can pull that team statistics table
+        table = response.xpath('//*[@id="stat_grid"]')
