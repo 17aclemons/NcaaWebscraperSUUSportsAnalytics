@@ -50,8 +50,6 @@ class NcaaSpider(scrapy.Spider):
             'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
         coach = response.xpath(
             '//html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
-        coach = response.xpath(
-            '//html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
         for s in range(0, len(schedule), 2):
             yield {
                 'teamName': teamName,
@@ -86,3 +84,11 @@ class NcaaSpider(scrapy.Spider):
     def parseStats(self, response):
         # Separate Player and Team Stats
         table = response.xpath('//*[@id="stat_grid"]')
+
+    #dynamicallly make a json object using the table names
+        #get all the stat names as a list
+        labels = table.xpath('//thead/tr/th/text()').getall()
+        d = {}
+        for i in labels:
+            d[i] = None
+            
