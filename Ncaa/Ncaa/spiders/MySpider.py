@@ -6,6 +6,16 @@ Created on Sun Jan 24 20:29:51 2021
 """
 
 import scrapy
+"""
+    WBB - Women's Basketball
+    WSB - Women's Softball
+    WSO - Women's Soccer
+    WTE - Women's Tennis
+    WLA - Women's Lacrosse
+    WIH - Women's Ice Hockey
+    WWP - Women's Water Polo
+    WSV - Women's Beach Volleyball
+    """
 
 
 class NcaaSpider(scrapy.Spider):
@@ -49,9 +59,9 @@ class NcaaSpider(scrapy.Spider):
         schedule = response.css(
             'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
         coach = response.xpath(
-            '//html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
+            '/html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
         coach = response.xpath(
-            '//html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
+            '/html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
         for s in range(0, len(schedule), 2):
             yield {
                 'teamName': teamName,
@@ -74,7 +84,7 @@ class NcaaSpider(scrapy.Spider):
                 'value': row.xpath('td[3]/text()').get()
             }
         # get the URL for the Team Stats
-        stats = response.xpath('//html/body/div[2]/a[2]/@href').get()
+        stats = response.xpath('/html/body/div[2]/a[2]/@href').get()
 
         # make a new url for Scrapy
         url = "https://stats.ncaa.org" + stats
@@ -85,4 +95,18 @@ class NcaaSpider(scrapy.Spider):
 
     def parseStats(self, response):
         # Separate Player and Team Stats
-        table = response.xpath('//*[@id="stat_grid"]')
+
+        # get the column names
+        header = response.xpath(
+            '/html/body/div[2]/div[3]/table/thead/tr/th/text()').getall()
+
+        # create a dictionary with keys from the header
+        b1 = {key: None for key in header}
+
+        # need to figure out how to add values to the keys in b1 from the tbody data
+        body = response.xpath('/html/body/div[2]/div[3]/table/tbody/tr')
+        for tr in body:
+            for td in tr.xpath('td'):
+                print(td)
+                b1.append(td)
+            b1.append("End of Line")
