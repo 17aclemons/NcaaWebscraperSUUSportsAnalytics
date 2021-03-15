@@ -96,11 +96,18 @@ class NcaaSpider(scrapy.Spider):
     def parseStats(self, response):
         # Separate Player and Team Stats
         # get the column names
-        statNames = response.xpath(
+        header = response.xpath(
             '/html/body/div[2]/div[3]/table/thead/tr/th/text()').getall()
 
         # need to figure out how to add values to the keys in b1 from the tbody data
-        statValues = response.xpath(
+        body = response.xpath(
             '/html/body/div[2]/div[3]/table/tbody/tr/td')
 
+        for i in range(0, int(len(body)/len(header))):
+            for j in range(0, len(header)):
+                print(header[j])
+                print(body[i * j])
+                yield {
+                    header[j]: body[i*j].get()
+                }
         teamStats = response.xpath('/html/body/div[2]/div[3]/div/table/tfoot')
