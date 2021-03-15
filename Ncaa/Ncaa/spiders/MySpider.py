@@ -100,13 +100,10 @@ class NcaaSpider(scrapy.Spider):
         header = response.xpath(
             '/html/body/div[2]/div[3]/table/thead/tr/th/text()').getall()
 
-        # create a dictionary with keys from the header
-        b1 = {key: None for key in header}
-
         # need to figure out how to add values to the keys in b1 from the tbody data
         body = response.xpath('/html/body/div[2]/div[3]/table/tbody/tr')
         for tr in body:
-            for td in tr.xpath('td'):
-                print(td)
-                b1.append(td)
-            b1.append("End of Line")
+            for td in range(0, len(tr.xpath('td'))):
+                yield {
+                    header[td]: tr.xpath('td')[td]
+                }
