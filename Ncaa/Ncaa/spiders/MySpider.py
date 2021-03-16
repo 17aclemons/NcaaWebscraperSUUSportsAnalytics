@@ -105,9 +105,24 @@ class NcaaSpider(scrapy.Spider):
 
         for i in range(0, int(len(body)/len(header))):
             for j in range(0, len(header)):
-                print(header[j])
-                print(body[i * j])
                 yield {
                     header[j]: body[i*j].get()
                 }
-        teamStats = response.xpath('/html/body/div[2]/div[3]/div/table/tfoot')
+        
+        footer = response.xpath('/html/body/div[2]/div[3]/table/tfoot/tr')
+        
+
+        for i in footer[0].xpath('td'):
+            yield{
+                "Team": i.get()
+            }
+        for i in footer[1].xpath('td'):
+            yield{
+                "Totals": i.get()
+            }
+        for i in footer[2].xpath('td'):
+            yield{
+                "Opponent Totals": i.get()
+            }    
+
+
