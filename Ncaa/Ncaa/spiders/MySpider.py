@@ -6,16 +6,6 @@ Created on Sun Jan 24 20:29:51 2021
 """
 
 import scrapy
-"""
-    WBB - Women's Basketball
-    WSB - Women's Softball
-    WSO - Women's Soccer
-    WTE - Women's Tennis
-    WLA - Women's Lacrosse
-    WIH - Women's Ice Hockey
-    WWP - Women's Water Polo
-    WSV - Women's Beach Volleyball
-    """
 
 
 class NcaaSpider(scrapy.Spider):
@@ -41,6 +31,33 @@ class NcaaSpider(scrapy.Spider):
                   # "https://stats.ncaa.org/team/inst_team_list?academic_year=2003&conf_id=-1&division=1&sport_code=WVB",
                   # "https://stats.ncaa.org/team/inst_team_list?academic_year=2002&conf_id=-1&division=1&sport_code=WVB"
                   ]
+
+    def start_requests(self):
+        # WBB - Women's Basketball
+        # WSB - Women's Softball
+        # WSO - Women's Soccer
+        # WTE - Women's Tennis
+        # WLA - Women's Lacrosse
+        # WIH - Women's Ice Hockey
+        # WWP - Women's Water Polo
+        # WSV - Women's Beach Volleyball
+        # WVB - Women's Volleyball
+
+        # only change these two variables if needed
+        year = ["2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012",
+                "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002"]
+        # add or remove sports codes as needed
+        sportCode = ["WBB", "WSB", "WSO", "WTE",
+                     "WLA", "WIH", "WWP", "WSV", "WVB"]
+        urls = []
+
+        for sport in sportCode:
+            for y in year:
+                temp = "https://stats.ncaa.org/team/inst_team_list?academic_year=" + y
+                temp = temp + "&conf_id=-1&division=1&sport_code=" + sport
+                urls.append(temp)
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         team = response.css('tr>td>a::attr(href)').getall()
@@ -108,14 +125,13 @@ class NcaaSpider(scrapy.Spider):
                 yield {
                     header[j]: body[i*j].get()
                 }
-        
-        footer = response.xpath('/html/body/div[2]/div[3]/table/tfoot/tr')
-        
 
+        footer = response.xpath('/html/body/div[2]/div[3]/table/tfoot/tr')
         for i in footer[0].xpath('td'):
             yield{
                 "Team": i.get()
             }
+
         for i in footer[1].xpath('td'):
             yield{
                 "Totals": i.get()
@@ -123,6 +139,4 @@ class NcaaSpider(scrapy.Spider):
         for i in footer[2].xpath('td'):
             yield{
                 "Opponent Totals": i.get()
-            }    
-
-
+            }
