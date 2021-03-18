@@ -32,7 +32,7 @@ class NcaaSpider(scrapy.Spider):
                   # "https://stats.ncaa.org/team/inst_team_list?academic_year=2002&conf_id=-1&division=1&sport_code=WVB"
                   ]
 
-    def start_requests(self):
+    """ def start_requests(self):
         # WBB - Women's Basketball
         # WSB - Women's Softball
         # WSO - Women's Soccer
@@ -48,7 +48,7 @@ class NcaaSpider(scrapy.Spider):
                 "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002"]
         # add or remove sports codes as needed
         sportCode = ["WBB", "WSB", "WSO", "WTE",
-                     "WLA", "WIH", "WWP", "WSV", "WVB"]
+                    "WLA", "WIH", "WWP", "WSV", "WVB"]
         urls = []
 
         for sport in sportCode:
@@ -57,7 +57,7 @@ class NcaaSpider(scrapy.Spider):
                 temp = temp + "&conf_id=-1&division=1&sport_code=" + sport
                 urls.append(temp)
         for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+            yield scrapy.Request(url=url, callback=self.parse) """
 
     def parse(self, response):
         team = response.css('tr>td>a::attr(href)').getall()
