@@ -95,11 +95,17 @@ class NcaaSpider(scrapy.Spider):
             '//html/body/div[2]/table/tr/td[2]/table[1]/tr')
 
         for row in teamStats:
-            yield {
-                'stat': row.xpath('td[1]/a/text()').get(),
-                'rank': row.xpath('td[2]/text()').get(),
-                'value': row.xpath('td[3]/text()').get(), #.strip() might work here
-            }
+            try:
+                yield{
+                    'stat': row.xpath('td[1]/a/text()').get(),
+                    'rank': row.xpath('td[2]/text()').get(),
+                    'value': row.xpath('td[3]/text()').get().strip()
+                }
+            except AttributeError:
+                yield{
+
+                }
+
         # get the URL for the Team Stats
         stats = response.xpath('/html/body/div[2]/a[2]/@href').get()
 
@@ -140,3 +146,5 @@ class NcaaSpider(scrapy.Spider):
             yield{
                 "Opponent Totals": i.get()
             }
+
+        # response.xpath('//table/tbody//text()').getall()
