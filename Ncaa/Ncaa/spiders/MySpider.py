@@ -98,7 +98,7 @@ class NcaaSpider(scrapy.Spider):
             yield {
                 'stat': row.xpath('td[1]/a/text()').get(),
                 'rank': row.xpath('td[2]/text()').get(),
-                'value': row.xpath('td[3]/text()').get()
+                'value': row.xpath('td[3]/text()').get(), #.strip() might work here
             }
         # get the URL for the Team Stats
         stats = response.xpath('/html/body/div[2]/a[2]/@href').get()
