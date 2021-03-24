@@ -117,34 +117,15 @@ class NcaaSpider(scrapy.Spider):
     # https://stats.ncaa.org/team/817/stats/14942 Team stats link
 
     def parseStats(self, response):
-        # Separate Player and Team Stats
-        # get the column names
-        header = response.xpath(
-            '/html/body/div[2]/div[3]/table/thead/tr/th/text()').getall()
-
-        # need to figure out how to add values to the keys in b1 from the tbody data
-        body = response.xpath(
-            '/html/body/div[2]/div[3]/table/tbody/tr/td')
-
-        for i in range(0, int(len(body)/len(header))):
-            for j in range(0, len(header)):
-                yield {
-                    header[j]: body[i*j].get()
-                }
-
-        footer = response.xpath('/html/body/div[2]/div[3]/table/tfoot/tr')
-        for i in footer[0].xpath('td'):
-            yield{
-                "Team": i.get()
-            }
-
-        for i in footer[1].xpath('td'):
-            yield{
-                "Totals": i.get()
-            }
-        for i in footer[2].xpath('td'):
-            yield{
-                "Opponent Totals": i.get()
-            }
-
-        # response.xpath('//table/tbody//text()').getall()
+        # get the name
+        name = response.xpath(
+            '/html/body/div[2]/fieldset[1]/legend/a[1]//text()').get()
+        # get the year
+        year = response.css(
+            'html>body[id=body]>div[id=contentarea]>fieldset>div>form>select[id=year_list]>option[selected=selected]::text').get()
+        # get the team
+        team = response.xpath(
+            '/html/body/div[2]/fieldset[1]/legend/a[1]//text()').get()
+        # coach
+        response.xpath(
+            '/html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a//text()').get()
