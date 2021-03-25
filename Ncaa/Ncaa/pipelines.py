@@ -10,4 +10,9 @@ from itemadapter import ItemAdapter
 
 class NcaaPipeline:
     def process_item(self, item, spider):
+        if(type(item) is dict):
+            temp = 'stuff'
+            if(temp in item):
+                item = item['stuff']
+
         return item

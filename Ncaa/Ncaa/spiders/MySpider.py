@@ -6,6 +6,7 @@ Created on Sun Jan 24 20:29:51 2021
 """
 
 import scrapy
+import json
 
 
 class NcaaSpider(scrapy.Spider):
@@ -88,7 +89,7 @@ class NcaaSpider(scrapy.Spider):
                 'date': schedule[s].xpath('td//text()').get(),
                 'opponent': schedule[s].xpath('td/a//text()').get(),
                 'result': schedule[s].css('td>a[class=skipMask]::text').get(),
-                'attendance': schedule[s].css('td[align=right]::text').get()
+                'attendance': schedule[s].css('td[align=right]::text').get().strip("\n").strip()
             }
 
         teamStats = response.xpath(
@@ -99,7 +100,7 @@ class NcaaSpider(scrapy.Spider):
                 yield{
                     'stat': row.xpath('td[1]/a/text()').get(),
                     'rank': row.xpath('td[2]/text()').get(),
-                    'value': row.xpath('td[3]/text()').get().strip()
+                    'value': row.xpath('td[3]/text()').get().strip("\n").strip()
                 }
             except AttributeError:
                 yield{
@@ -117,15 +118,31 @@ class NcaaSpider(scrapy.Spider):
     # https://stats.ncaa.org/team/817/stats/14942 Team stats link
 
     def parseStats(self, response):
-        # get the name
-        name = response.xpath(
-            '/html/body/div[2]/fieldset[1]/legend/a[1]//text()').get()
+        data = {}
         # get the year
-        year = response.css(
+        data['year'] = response.css(
             'html>body[id=body]>div[id=contentarea]>fieldset>div>form>select[id=year_list]>option[selected=selected]::text').get()
         # get the team
-        team = response.xpath(
+        data['team'] = response.xpath(
             '/html/body/div[2]/fieldset[1]/legend/a[1]//text()').get()
         # coach
-        response.xpath(
+        data['coach'] = response.xpath(
             '/html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a//text()').get()
+
+        # table
+        table = response.xpath('//*[@id="stat_grid"]')
+        # get column names
+        th = table.xpath('thead/tr/th/text()').getall()
+        tr = table.xpath('tbody/tr//td//text()').getall()
+
+        for i in range(0, len(th)):
+            data[th[i]] = tr[i].strip("\n").strip()
+        yield{
+            'stuff':  data
+        }
+        for i in range(1, int(len(tr)/len(th))):
+            for j in range(0, len(th)):
+                data[th[j]] = tr[i * j].strip("\n").strip()
+            yield{
+                'stuff': data
+            }
