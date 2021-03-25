@@ -14,5 +14,6 @@ class NcaaPipeline:
             temp = 'scrapedTable'
             if(temp in item):
                 item = item[temp]
+                return item
 
         return item

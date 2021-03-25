@@ -134,30 +134,4 @@ class NcaaSpider(scrapy.Spider):
         # get column names
         th = table.xpath('thead/tr/th/text()').getall()
         tr = table.xpath('tbody/tr//td//text()').getall()
-
-        for i in range(0, len(th)):
-            data[th[i]] = tr[i].strip("\n").strip()
-        yield {
-            'scrapedTable': data
-        }
-
-        for i in range(1, int(len(tr)/len(th))):
-            for j in range(0, len(th)):
-                data[th[j]] = tr[i * j].strip("\n").strip()
-            yield {
-                'scrapedTable': data
-            }
-        # footer
         tf = table.xpath('tfoot/tr//td//text()').getall()
-        for i in range(0, len(th)):
-            data[th[i]] = tf[i].strip("\n").strip()
-        yield {
-            'scrapedTable': data
-        }
-
-        for i in range(1, int(len(tf)/len(th))):
-            for j in range(0, len(th)):
-                data[th[j]] = tf[i * j].strip("\n").strip()
-            yield {
-                'scrapedTable': data
-            }
