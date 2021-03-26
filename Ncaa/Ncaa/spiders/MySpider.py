@@ -98,6 +98,10 @@ class NcaaSpider(scrapy.Spider):
         for row in teamStats:
             try:
                 yield{
+                    'teamName' : teamName,
+                    'season' : season,
+                    'sport' : sport,
+                    'headCoach' : coach,
                     'stat': row.xpath('td[1]/a/text()').get(),
                     'rank': row.xpath('td[2]/text()').get(),
                     'value': row.xpath('td[3]/text()').get().strip("\n").strip()
@@ -138,6 +142,7 @@ class NcaaSpider(scrapy.Spider):
         #td = tr.xpath('td')[8]
         #td = td.xpath('descendant-or-self::text()').getall()
         
+        #get the data from tbody tags
         for i in range(0, len(tr)):
             for j in range(0, len(th)):
                 td = tr[i].xpath('td')
@@ -146,7 +151,19 @@ class NcaaSpider(scrapy.Spider):
                     allText = td[k].xpath('descendant-or-self::text()').getall()
                     empty = empty.join(allText).strip("/n").strip()
                     data[th[k]] = empty
-                yield {
-                    'scrapedTable' : data
-                }
-        
+            yield {
+                'scrapedTable' : data
+            }
+        #get the data from the tfoot tag
+        tf = table.xpath('tfoot/tr')
+        for i in range(0, len(tf)):
+            for j in range(0, len(th)):
+                td = tf[i].xpath('td')
+                for k in range(0, len(td)):
+                    empty = ""
+                    allText = td[k].xpath('descendant-or-self::text()').getall()
+                    empty = empty.join(allText).strip("/n").strip()
+                    data[th[k]] = empty
+            yield{
+                'scrapedTable' : data
+            }
