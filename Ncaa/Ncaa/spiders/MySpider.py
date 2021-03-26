@@ -133,8 +133,20 @@ class NcaaSpider(scrapy.Spider):
         table = response.xpath('//*[@id="stat_grid"]')
         # get column names
         th = table.xpath('thead/tr/th/text()').getall()
-        #tr = table.xpath('tbody/tr//td//text()')
-        #tf = table.xpath('tfoot/tr//td//text()')
-
-        #for tr in table.xpath('tbody/tr'):
+        tr = table.xpath('tbody/tr')
+        #get a td selector from tr
+        #td = tr.xpath('td')[8]
+        #td = td.xpath('descendant-or-self::text()').getall()
+        
+        for i in range(0, len(tr)):
+            for j in range(0, len(th)):
+                td = tr[i].xpath('td')
+                for k in range(0, len(td)):
+                    empty = ""
+                    allText = td[k].xpath('descendant-or-self::text()').getall()
+                    empty = empty.join(allText).strip("/n").strip()
+                    data[th[k]] = empty
+                yield {
+                    'scrapedTable' : data
+                }
         
