@@ -133,5 +133,8 @@ class NcaaSpider(scrapy.Spider):
         table = response.xpath('//*[@id="stat_grid"]')
         # get column names
         th = table.xpath('thead/tr/th/text()').getall()
-        tr = table.xpath('tbody/tr//td//text()').getall()
-        tf = table.xpath('tfoot/tr//td//text()').getall()
+        #tr = table.xpath('tbody/tr//td//text()')
+        #tf = table.xpath('tfoot/tr//td//text()')
+
+        #for tr in table.xpath('tbody/tr'):
+        

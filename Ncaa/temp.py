@@ -1,0 +1,8 @@
+td = ['5', 'Hughes, Aleah', 'Sr', 'OH', '5-9', '101', '\n    ', '\n      \n        \n          101\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          29\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          \n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          262\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          139\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          873\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          0.141\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          32\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          25\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          50\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          323\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          20\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          2\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          20\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          4\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          299.0\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          2\n        \n      \n    ', '\n\n  ', '\n    ', '\n      \n        \n          0\n        \n      \n    ', '\n\n  ']
+clean = []
+for s in td:
+    s = s.strip("\n").strip()
+    if len(s) != 0:
+        clean.append(s)
+print(len(clean))
+print(clean)
