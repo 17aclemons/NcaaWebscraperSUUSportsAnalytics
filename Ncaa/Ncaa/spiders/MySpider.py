@@ -78,8 +78,6 @@ class NcaaSpider(scrapy.Spider):
             'html>body[id=body]>div[id=contentarea]>table>tr>td>fieldset>table>tbody>tr')
         coach = response.xpath(
             '/html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
-        coach = response.xpath(
-            '/html/body/div[2]/fieldset[1]/div[2]/div[2]/fieldset/a/text()').get()
         for s in range(0, len(schedule), 2):
             yield {
                 'teamName': teamName,
