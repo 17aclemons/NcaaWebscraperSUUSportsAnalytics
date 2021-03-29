@@ -2,17 +2,15 @@
 """
 Created on Sun Jan 24 20:29:51 2021
 
-@author: User
+@author: Andrew Clemons
 """
 
 import scrapy
-import json
-
 
 class NcaaSpider(scrapy.Spider):
     name = "ncaa"
 
-    start_urls = ["https://stats.ncaa.org/team/inst_team_list?academic_year=2020&conf_id=-1&division=1&sport_code=WVB",
+    """start_urls = ["https://stats.ncaa.org/team/inst_team_list?academic_year=2020&conf_id=-1&division=1&sport_code=WVB",
                   # "https://stats.ncaa.org/team/inst_team_list?academic_year=2019&conf_id=-1&division=1&sport_code=WVB",
                   # "https://stats.ncaa.org/team/inst_team_list?academic_year=2018&conf_id=-1&division=1&sport_code=WVB",
                   # "https://stats.ncaa.org/team/inst_team_list?academic_year=2017&conf_id=-1&division=1&sport_code=WVB",
@@ -32,8 +30,8 @@ class NcaaSpider(scrapy.Spider):
                   # "https://stats.ncaa.org/team/inst_team_list?academic_year=2003&conf_id=-1&division=1&sport_code=WVB",
                   # "https://stats.ncaa.org/team/inst_team_list?academic_year=2002&conf_id=-1&division=1&sport_code=WVB"
                   ]
-
-    """ def start_requests(self):
+    """
+    def start_requests(self):
         # WBB - Women's Basketball
         # WSB - Women's Softball
         # WSO - Women's Soccer
@@ -54,11 +52,10 @@ class NcaaSpider(scrapy.Spider):
 
         for sport in sportCode:
             for y in year:
-                temp = "https://stats.ncaa.org/team/inst_team_list?academic_year=" + y
-                temp = temp + "&conf_id=-1&division=1&sport_code=" + sport
+                temp = "https://stats.ncaa.org/team/inst_team_list?academic_year=" + y + "&conf_id=-1&division=1&sport_code=" + sport
                 urls.append(temp)
         for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse) """
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         team = response.css('tr>td>a::attr(href)').getall()
