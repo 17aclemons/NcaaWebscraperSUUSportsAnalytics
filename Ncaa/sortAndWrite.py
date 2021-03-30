@@ -4,15 +4,12 @@ import os
 
 def subsetDictByKey(key):
     subset = []
-    count = 0
     for line in data:
         if key in list(line.keys()):
             subset.append(line)
-            del data[count]
-            count += 1
     return subset
 
-with open('data.json') as f:
+with open('test.json') as f:
     data = json.load(f)
 
 #subset the data dict and remove it from the original    

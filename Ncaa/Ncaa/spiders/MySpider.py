@@ -81,8 +81,8 @@ class NcaaSpider(scrapy.Spider):
                 'season': season,
                 'sport': sport,
                 'headCoach': coach,
-                'date': schedule[s].xpath('td//text()').get(),
-                'opponent': schedule[s].xpath('td/a//text()').get(),
+                'date': schedule[s].xpath('td/text()').get(),
+                'opponent': schedule[s].xpath('td/a/text()').get(),
                 'result': schedule[s].css('td>a[class=skipMask]::text').get(),
                 'attendance': schedule[s].css('td[align=right]::text').get().strip("\n").strip()
             }
@@ -90,16 +90,16 @@ class NcaaSpider(scrapy.Spider):
         teamStats = response.xpath(
             '//html/body/div[2]/table/tr/td[2]/table[1]/tr')
 
-        for row in teamStats:
+        for row in range(1, len(teamStats)):
             try:
                 yield{
                     'teamName' : teamName,
                     'season' : season,
                     'sport' : sport,
                     'headCoach' : coach,
-                    'stat': row.xpath('td[1]/a/text()').get(),
-                    'rank': row.xpath('td[2]/text()').get(),
-                    'value': row.xpath('td[3]/text()').get().strip("\n").strip()
+                    'stat': teamStats[row].xpath('td[1]/a/text()').get(),
+                    'rank': teamStats[row].xpath('td[2]/text()').get(),
+                    'value': teamStats[row].xpath('td[3]/text()').get().strip("\n").strip()
                 }
             except AttributeError:
                 yield{
