@@ -2,50 +2,70 @@ import json
 import csv
 import os
 
-scheduleCount = 0
-statsCount = 0
-psCount = 0
+def subsetDictByKey(key):
+    subset = []
+    count = 0
+    for line in data:
+        if key in list(line.keys()):
+            subset.append(line)
+            del data[count]
+            count += 1
+    return subset
 
 with open('data.json') as f:
     data = json.load(f)
 
-os.mkdir(os.getcwd() + '\Webscraper')
+#subset the data dict and remove it from the original    
+schedule = subsetDictByKey('date')
+stat = subsetDictByKey('stat')
 
-f = open('Webscraper\schedule.csv', 'w')
-f.close()
-f = open('Webscraper\stats.csv', 'w')
-f.close()
-f = open('Webscraper\schedule.csv', 'w')
-f.close()
+#write to a file
+os.mkdir(os.getcwd() + '/Scraped')
 
+#write the schedule
+with open('Scraped/schedules.csv', 'a') as file:
+    writer = csv.DictWriter(file, fieldnames = list(schedule[0].keys()))
+    writer.writeheader()
+    for line in schedule:
+        writer.writerow(line)
+del schedule
+
+#write the stats
+with open('Scraped/stats.csv', 'a') as file:
+    writer = csv.DictWriter(file, fieldnames = list(stat[0].keys()))
+    writer.writeheader()
+    for line in stat:
+        writer.writerow(line)
+del stat
+
+#write Player stats
+#teamNames and the sport in a list
+teamNames = []
+sports = []
 for line in data:
-    if 'date' in line:
-        field_names = list(line.keys())
-        with open('Webscraper/schedule.csv', 'a') as schedule:
-            if scheduleCount == 0:
-                writer = csv.DictWriter(schedule, fieldnames = field_names)
-                writer.writeheader()
-                writer.writerow(line)
-                scheduleCount += 1
-            else:
-                writer.writerow(line)
-    elif 'stat' in line:
-        field_names = list(line.keys())
-        with open('Webscraper/stats.csv', 'a') as stats:
-            if statsCount == 0:
-                writer = csv.DictWriter(stats, fieldnames = field_names)
-                writer.writeheader()
-                writer.writerow(line)
-                statsCount += 1
-            else:
-                writer.writerow(line)
-    elif 'team':
-        field_names = list(line.keys())
-        with open('Webscraper/playerStats.csv', 'a') as ps:
-            if psCount == 0:
-                writer = csv.DictWriter(ps, fieldnames = field_names)
-                writer.writeheader()
-                writer.writerow(line)
-                psCount += 1
-            else:
-                writer.writerow(line)
+    try:
+        if line['teamName'] not in teamNames:
+            teamNames.append(line['teamName'])
+        if line['sport'] not in sports:
+            sports.append(line['sport'])
+    except KeyError:
+        print()
+
+for sport in sports:
+    for team in teamNames:
+        fileName = 'Scraped/' + str(sport) + str(team) + '.csv'
+        with open(fileName, 'a') as file:
+            count = 0
+            for line in data:
+                if team in line and sport in line:
+                    if count == 0:
+                        writer = csv.DictWriter(file, fieldnames = list(line.keys()))
+                        writer.writeheader()
+                        count += 1
+                    else:
+                        writer.writerow(line)
+            count == 0
+                    
+        
+        
+#subset in a list 
