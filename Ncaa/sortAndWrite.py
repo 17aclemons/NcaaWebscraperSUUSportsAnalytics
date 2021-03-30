@@ -20,7 +20,8 @@ stat = subsetDictByKey('stat')
 os.mkdir(os.getcwd() + '/Scraped')
 
 #write the schedule
-with open('Scraped/schedules.csv', 'a') as file:
+schedule = sorted(schedule, key = lambda i: i['teamName'], reverse = False)
+with open('Scraped/schedules.csv', 'a', newline = '') as file:
     writer = csv.DictWriter(file, fieldnames = list(schedule[0].keys()))
     writer.writeheader()
     for line in schedule:
@@ -28,7 +29,8 @@ with open('Scraped/schedules.csv', 'a') as file:
 del schedule
 
 #write the stats
-with open('Scraped/stats.csv', 'a') as file:
+stat = sorted(stat, key = lambda i: i ['teamName'], reverse = False)
+with open('Scraped/stats.csv', 'a', newline = '') as file:
     writer = csv.DictWriter(file, fieldnames = list(stat[0].keys()))
     writer.writeheader()
     for line in stat:
