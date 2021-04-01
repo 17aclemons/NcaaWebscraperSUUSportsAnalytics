@@ -10,7 +10,7 @@ import scrapy
 class NcaaSpider(scrapy.Spider):
     name = "ncaa"
 
-    start_urls = ["https://stats.ncaa.org/team/inst_team_list?academic_year=2020&conf_id=-1&division=1&sport_code=WVB"
+    '''start_urls = ["https://stats.ncaa.org/team/inst_team_list?academic_year=2020&conf_id=-1&division=1&sport_code=WVB"
                 # "https://stats.ncaa.org/team/inst_team_list?academic_year=2019&conf_id=-1&division=1&sport_code=WVB",
                 # "https://stats.ncaa.org/team/inst_team_list?academic_year=2018&conf_id=-1&division=1&sport_code=WVB",
                 # "https://stats.ncaa.org/team/inst_team_list?academic_year=2017&conf_id=-1&division=1&sport_code=WVB",
@@ -30,8 +30,8 @@ class NcaaSpider(scrapy.Spider):
                 # "https://stats.ncaa.org/team/inst_team_list?academic_year=2003&conf_id=-1&division=1&sport_code=WVB",
                 # "https://stats.ncaa.org/team/inst_team_list?academic_year=2002&conf_id=-1&division=1&sport_code=WVB"
                 ]
-    
-    """def start_requests(self):
+        '''
+    def start_requests(self):
         # WBB - Women's Basketball
         # WSB - Women's Softball
         # WSO - Women's Soccer
@@ -43,19 +43,19 @@ class NcaaSpider(scrapy.Spider):
         # WVB - Women's Volleyball
 
         # only change these two variables if needed
-        year = ["2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012",
-                "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002"]
+        year = ["2020"]#, "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012",
+               # "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002"]
         # add or remove sports codes as needed
         sportCode = ["WBB", "WSB", "WSO", "WTE",
                     "WLA", "WIH", "WWP", "WSV", "WVB"]
+        
         urls = []
-
         for sport in sportCode:
             for y in year:
                 temp = "https://stats.ncaa.org/team/inst_team_list?academic_year=" + y + "&conf_id=-1&division=1&sport_code=" + sport
                 urls.append(temp)
         for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)"""
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         team = response.css('tr>td>a::attr(href)').getall()
