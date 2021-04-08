@@ -15,8 +15,24 @@ def subsetDictByValue(value, js):
         if value in list(line.values()):
             subset.append(line)
     return subset
-    
-with open('test.json') as f:
+
+def writeFile(fileLocation, jsList):
+    with open(fileLocation, 'a', newline = '') as file:
+        writer = csv.DictWriter(file, fieldnames = list(jsList[0].keys()))
+        writer.writeheader()
+        for line in jsList:
+            writer.writerow(line)
+        
+def sortData(keyName, jsList):
+    temp = sorted(jsList, key = lambda i: i[keyName], reverse = False)
+    return temp
+
+def filterData(keyName, value, jsList):
+    temp = list(filter(lambda i: i[keyName] != value, jsList))
+    return temp
+
+#read the json file
+with open('data.json') as f:
     data = json.load(f)
 
 #write to a file
@@ -25,33 +41,61 @@ os.mkdir(os.getcwd() + '/Scraped')
 #subset the data     
 schedule = subsetDictByKey('date', data)
 
-#write the schedule
-schedule = sorted(schedule, key = lambda i: i['teamName'], reverse = False)
-with open('Scraped/schedules.csv', 'a', newline = '') as file:
-    writer = csv.DictWriter(file, fieldnames = list(schedule[0].keys()))
-    writer.writeheader()
-    for line in schedule:
-        writer.writerow(line)
-            
-del schedule
+#filter schedule
+schedule = sortData('teamName', schedule)
 
+#write schedule
+writeFile('Scraped/schedules.csv', schedule)
+
+
+#subset stats from data
 stat = subsetDictByKey('stat', data)
-stat = list(filter(lambda i: i['rank'] != 'Rank', stat))
 
-#write the stats
-stat = sorted(stat, key = lambda i: i ['teamName'], reverse = False)
-with open('Scraped/stats.csv', 'a', newline = '') as file:
-    writer = csv.DictWriter(file, fieldnames = list(stat[0].keys()))
-    writer.writeheader()
-    for line in stat:
-        writer.writerow(line)
-del stat
+#filter  and sort stat
+stat = filterData('rank', 'Rank', stat)
+stat = sortData('teamName', stat)
+
+#write stats
+writeFile('Scraped/stats.csv', stat)
 
 
+
+
+#need to write team summary stats
+team = subsetDictByKey('team', data)
+
+#filter for just team stats
+team = list(t for t in team if t['Jersey'] =='-')
+
+#sort
+team = sortData('year', team)
+
+sports = []
+for s in team:
+    if s['sport'] not in sports:
+        sports.append(s['sport'])
+        
+for sport in sports:
+    sub = subsetDictByValue(str(sport), team)
+    fileName = 'Scraped/' + str(sport) + 'TeamStats.csv'
+    
+    head = []
+    head = {k for d in sub for k in d.keys()}
+    
+    with open(fileName, 'a', newline = '') as file:
+        writer = csv.DictWriter(file, fieldnames = head)
+        writer.writeheader()
+        for line in sub:
+            writer.writerow(line)
+
+#sub player stats from data
 player = subsetDictByKey('team', data)
-player = list(filter(lambda i: i['Jersey'] != '-', player))
-player = list(filter(lambda i: i['Jersey'] != 'Jersey', player))
-player = sorted(player, key = lambda i: i ['sport'], reverse = False)
+#remove team stat table
+player = filterData('Jersey', '-', player)
+player = filterData('Jersey', 'Jersey', player)
+#sort player
+player = sortData('sport', player)
+
 #write Player stats
 sports = []
 for s in player:
@@ -62,20 +106,15 @@ for sport in sports:
     sub = subsetDictByValue(str(sport), player)
     fileName = 'Scraped/' + str(sport) + '.csv'
     
-    #find the line with the most headers
-    m = -1
-    for s in range(0, len(sub)):
-        if len(sub[s]) > m:
-            position = s
+    #get all the keys in a list
+    head = []
+    head = {k for d in sub for k in d.keys()}
+
     with open(fileName, 'a', newline = '') as file:
-        writer = csv.DictWriter(file, fieldnames = list(sub[position].keys()))
+        writer = csv.DictWriter(file, fieldnames = head)
         writer.writeheader()
-        count = 0
         for line in sub:
-            #try:
-                writer.writerow(line)
-            #except ValueError:
-                writer.writerow(line)
-        
+            writer.writerow(line)
+            
 
                     
