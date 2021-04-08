@@ -1,3 +1,12 @@
+#Get the files
+Go to https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics
+Click the Download Code Button and select download zip
+Inline-style:
+![alt text](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/raw/main/images/download.PNG
+
+Extract the folder from the zip file
+
+
 Using Anaconda
 (If you have anaconda already downloaded you can skip this step)
 Go to this link https://www.anaconda.com/products/individual#Downloads
@@ -5,15 +14,11 @@ or search anaconda and look for individual downloads
 Download the appropriate version for your operating system (If you don't know what your OS is and your not using a mac, its probably windows)
 Run the Anaconda install you just downloaded (you can usually just click next as the defaults should work for most users)
 
-run conda env create -f environment.yml to create a new conda environment
-activate the environment using conda activat Webscraper
+Open the Anaconda Prompt (you can type ananconda into the search bar and it should be there)
+navigate to NcaaWebscraperSUUSportsAnalytics-main folder
 
+run 'conda env create -f environment.yml' to create a new conda environment
+activate the environment using conda activate Webscraper
 
-Using pip
-
-Go to https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics
-Click the download Code Button and select download Zip
-
-Open up a terminal
-(If on windows, type cmd in the bottom left search bar)
-Navigate to the folder where the extracted zip file is located (Usually Downloads)
+Now navigate to the Ncaa folder (should be cd Ncaa)
+type 'script.bat' and it enter
