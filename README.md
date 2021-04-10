@@ -32,12 +32,15 @@ Open the Anaconda Prompt (you can type ananconda into the search bar and it shou
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/anacondaPrompt.PNG)
 
 Navigate to NcaaWebscraperSUUSportsAnalytics-main folder
+
 *The code below will work for most Windows Machines*
+
 `cd Downloads\NcaaWebscraperSUUSportsAnalytics-main`
 
 Type  
 `conda env create -f environment.yml`
-to create a new conda environment. 
+
+To create a new conda environment. 
 Conda environments are like python virtual environments and are used so that package versions don't conflict with each other. If you use python this is considered best practice.
 
 Activate the environment using 
