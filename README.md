@@ -5,6 +5,7 @@ Click the Download Code Button and select download zip
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/download.PNG)
 
+
 Extract the folder from the zip file
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/extract.PNG)
 
