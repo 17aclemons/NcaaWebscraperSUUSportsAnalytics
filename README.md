@@ -9,7 +9,8 @@ Click the Download Code Button and select download zip
 Extract the folder from the zip file
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/extract.PNG)
 
-# Using Anaconda
+# Using Anaconda or Miniconda
+### Using Anaconda
 ##### (If you have anaconda already downloaded you can skip this step)
 
 Go to this link https://www.anaconda.com/products/individual#Downloads or search Anaconda in a internet browser and look for individual downloads.
@@ -19,7 +20,7 @@ Download the appropriate version for your operating system
 
 Run the Anaconda install you just downloaded (you can usually just click next as the defaults should work for most users)
 
-# Using Miniconda - for those that just Anaconda for this
+### Using Miniconda - for those that just Anaconda for this
 
 Go to this link https://docs.conda.io/en/latest/miniconda.html or search Miniconda in a internet brwoser.
 Download the appropropriate verison for your operating system
