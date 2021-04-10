@@ -44,6 +44,7 @@ To create a new conda environment.
 Conda environments are like python virtual environments and are used so that package versions don't conflict with each other. If you use python this is considered best practice.
 
 Activate the environment using 
+
 `conda activate Webscraper`
 
 Now navigate to the Ncaa folder and run script.bat
