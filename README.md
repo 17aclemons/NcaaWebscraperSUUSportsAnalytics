@@ -5,7 +5,7 @@ Click the Download Code Button and select download zip
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/download.PNG)
 
-
+ 
 Extract the folder from the zip file
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/extract.PNG)
 
@@ -18,6 +18,7 @@ Download the appropriate version for your operating system
 (If you don't know what your OS is and your not using a mac, its probably windows)
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/anaconda.PNG)
 
+ 
 Run the Anaconda install you just downloaded (you can usually just click next as the defaults should work for most users)
 
 ### Using Miniconda - for those that just Anaconda for this
@@ -28,6 +29,7 @@ Download the appropropriate verison for your operating system
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/miniconda.PNG)
 
+ 
 Run the Miniconda install you just downloaded (you can usually just click next as the defaults should work for most users)
 
 ## Completing Install
@@ -35,6 +37,7 @@ If you get the screen below, you've successfully installed Anaconda/Miniconda. Y
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/miniInstall.PNG)
 
+ 
 Open the Anaconda Prompt (you can type ananconda into the search bar and it should be there)
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/anacondaPrompt.PNG)
 
