@@ -30,6 +30,10 @@ Download the appropropriate verison for your operating system
 
 Run the Miniconda install you just downloaded (you can usually just click next as the defaults should work for most users)
 
+## Completing Install
+If you get the screen below, you've successfully installed Anaconda/Miniconda. You can uncheck the two boxes on the screen and click on finish to finish the install
+![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/miniInstall.PNG)
+
 Open the Anaconda Prompt (you can type ananconda into the search bar and it should be there)
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/anacondaPrompt.PNG)
 
