@@ -58,6 +58,7 @@ Activate the environment using
 `conda activate Webscraper`
 
 Now navigate to the Ncaa folder and run script.bat
+
 *On Windows*
 
 `cd Ncaa`
