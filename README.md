@@ -1,5 +1,6 @@
 # Get the files
 Open a new tab
+
 Go to https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics
 
 Click the Download Code Button and select download zip
