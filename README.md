@@ -45,8 +45,12 @@ Conda environments are like python virtual environments and are used so that pac
 
 Activate the environment using 
 `conda activate Webscraper`
+
 Now navigate to the Ncaa folder and run script.bat
 *On Windows*
+
 `cd Ncaa`
+
 `script.bat`
+
 hit enter
