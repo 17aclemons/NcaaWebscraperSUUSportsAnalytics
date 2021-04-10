@@ -1,4 +1,4 @@
-To install the program
+To run the program
 
 Click the Download Code Button and select download zip
 
