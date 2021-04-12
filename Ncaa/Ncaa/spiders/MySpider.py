@@ -9,29 +9,11 @@ import scrapy
 
 class NcaaSpider(scrapy.Spider):
     name = "ncaa"
-
-    '''start_urls = ["https://stats.ncaa.org/team/inst_team_list?academic_year=2020&conf_id=-1&division=1&sport_code=WVB"
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2019&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2018&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2017&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2016&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2015&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2014&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2013&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2012&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2011&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2010&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2009&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2008&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2007&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2006&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2005&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2004&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2003&conf_id=-1&division=1&sport_code=WVB",
-                # "https://stats.ncaa.org/team/inst_team_list?academic_year=2002&conf_id=-1&division=1&sport_code=WVB"
-                ]
-        '''
+    #example URL
+    #https://stats.ncaa.org/team/inst_team_list?academic_year=2020&conf_id=-1&division=1&sport_code=WVB
+    
     def start_requests(self):
+        #list of example team abreviations
         # WBB - Women's Basketball
         # WSB - Women's Softball
         # WSO - Women's Soccer
@@ -54,7 +36,7 @@ class NcaaSpider(scrapy.Spider):
             #"2013",
             #"2012",
             #"2011",
-            "2010",
+            #"2010",
             #"2009",
             #"2008",
             #"2007",
@@ -66,15 +48,15 @@ class NcaaSpider(scrapy.Spider):
             ]
         # add or remove sports codes as needed
         sportCode = [
-            "WBB", 
-            "WSB", 
-            "WSO", 
-            "WTE",
-            "WLA", 
-            "WIH", 
-            "WWP", 
-            "WSV", 
-            "WVB"
+            #"WBB", 
+            #"WSB", 
+            #"WSO", 
+            #"WTE",
+            #"WLA", 
+            #"WIH", 
+            #"WWP", 
+            #"WSV", 
+            #"WVB"
             ]
         
         urls = []
