@@ -18,10 +18,13 @@ def subsetDictByValue(value, js):
 
 def writeFile(fileLocation, jsList):
     with open(fileLocation, 'a', newline = '') as file:
-        writer = csv.DictWriter(file, fieldnames = list(jsList[0].keys()))
-        writer.writeheader()
-        for line in jsList:
-            writer.writerow(line)
+        try:
+            writer = csv.DictWriter(file, fieldnames = list(jsList[0].keys()))
+            writer.writeheader()
+            for line in jsList:
+                writer.writerow(line)
+        except IndexError:
+            print("data was unable to be scraped")
         
 def sortData(keyName, jsList):
     temp = sorted(jsList, key = lambda i: i[keyName], reverse = False)
