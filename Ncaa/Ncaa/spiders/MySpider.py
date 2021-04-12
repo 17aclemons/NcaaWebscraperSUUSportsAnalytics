@@ -26,7 +26,7 @@ class NcaaSpider(scrapy.Spider):
 
         # only change these two variables if needed
         year = [
-            #"2020", 
+            "2020", 
             #"2019",
             #"2018",
             #"2017",
@@ -48,7 +48,7 @@ class NcaaSpider(scrapy.Spider):
             ]
         # add or remove sports codes as needed
         sportCode = [
-            #"WBB", 
+            "WBB", 
             #"WSB", 
             #"WSO", 
             #"WTE",
