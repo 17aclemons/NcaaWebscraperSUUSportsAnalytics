@@ -18,13 +18,10 @@ def subsetDictByValue(value, js):
 
 def writeFile(fileLocation, jsList):
     with open(fileLocation, 'a', newline = '') as file:
-        try:
-            writer = csv.DictWriter(file, fieldnames = list(jsList[0].keys()))
-            writer.writeheader()
-            for line in jsList:
-                writer.writerow(line)
-        except IndexError:
-            print("data was unable to be scraped")
+        writer = csv.DictWriter(file, fieldnames = list(jsList[0].keys()))
+        writer.writeheader()
+        for line in jsList:
+            writer.writerow(line)
         
 def sortData(keyName, jsList):
     temp = sorted(jsList, key = lambda i: i[keyName], reverse = False)
@@ -39,14 +36,16 @@ with open('data.json') as f:
     data = json.load(f)
 
 #write to a file
-os.mkdir(os.getcwd() + '/Scraped')
-
-#subset the data     
+    try:
+        os.mkdir(os.getcwd() + '/Scraped')
+    except FileExistsError:
+        print()
+#subset the data
 schedule = subsetDictByKey('date', data)
 
 #filter schedule
 schedule = sortData('teamName', schedule)
-
+print(schedule)
 #write schedule
 writeFile('Scraped/schedules.csv', schedule)
 
@@ -116,8 +115,11 @@ for sport in sports:
     with open(fileName, 'a', newline = '') as file:
         writer = csv.DictWriter(file, fieldnames = head)
         writer.writeheader()
-        for line in sub:
-            writer.writerow(line)
-            
+        try:
+            for line in sub:
+                writer.writerow(line)
+        except UnicodeEncodeError:
+            #need to fix players with special names
+            print(line)
 
                     
