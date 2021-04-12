@@ -15,7 +15,7 @@ Extract the folder from the zip file
 
 Go to this link https://www.anaconda.com/products/individual#Downloads or search Anaconda in a internet browser and look for individual downloads.
 Download the appropriate version for your operating system
-(If you don't know what your OS is and your not using a mac, its probably windows)
+(If you don't know what your OS is and your not using a Mac, its probably windows)
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/anaconda.PNG)
 
  
@@ -66,7 +66,7 @@ The year and sportCode should be the only variables you change in this file. If 
  
 So in this example, we are scraping all the data from Women's Basketball for the 2002 season. The year and sportCode variables in the MySpider.py file should look like
 
-![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/list.PNG)
+![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/edit.PNG)
 
 Once you save the file, you can now just run the script.bat file and it should scrape automatically for you
 
@@ -78,7 +78,7 @@ hit enter
 
 If you screen starts to look similar to this, it means that the program is activilty scraping the Ncaa's website and pulling the data. Look at the HTTP requests, (the circled numbers in the image below). You want it to contain numbers in the 200's and 300's. The 200's mean it succesfull reconnected to the webpage and the 300's are redirects, meaning the information wasn't at that specific page, but its getting sent to the correct one now. This program takes a while to run. We are scraping thousands of webpages automatically and have to delay the process slightly or risk getting our IP address temporarily banned from the website. It takes roughly seven minutes to scrape one season for a single sport, so this process can take a while if you are trying to scrape twenty years of data for multiple sports. 
 
-![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/list.PNG)
+![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/work.PNG)
 
 The program is done running when it looks similar to this
 
