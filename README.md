@@ -64,7 +64,7 @@ Now that you have the conda environment setup, you need to select what sports an
 The year and sportCode should be the only variables you change in this file. If you want to scrape for a specific year and sport, delete the pound (#) sign in front of the year and the sport code and then save the file. If you don't want that year or sport, make sure there is a pound (#) sign in front of it so that it doesn't get scraped. 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/list.PNG)
  
-So in this example, we are scraping all the data from Women's Basketball for the 2002 season. The year and sportCode variables in the MySpider.py file should look like
+So in this example, we are scraping all the data from Women's Basketball for the 2020 season. The year and sportCode variables in the MySpider.py file should look like
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/edit.PNG)
 
