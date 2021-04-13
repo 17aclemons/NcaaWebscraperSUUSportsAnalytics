@@ -88,7 +88,7 @@ All the scraped data is located in the Scraped folder
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/scraped.PNG)
 
-It contains schedule.csv, which contains the schedule information for the team during that season. Stats.csv contains the team stats for that team for the season (or up until that point if its mid-season). Then each teams player statistics is separate by sport. 
+It contains schedule.csv, which contains the schedule information for the team during that season. Stats.csv contains the team stats for that team for the season (or up until that point if its mid-season). Then each teams player statistics is separate by sport. There is also a <Sport>TeamStats.csv that has the team stats for every season you scraped sorted by sport
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/csv.PNG)
 
