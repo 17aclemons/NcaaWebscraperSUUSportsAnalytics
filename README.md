@@ -1,7 +1,7 @@
 # Setup
 To run the program
 
-Click the Download Code Button and select download zip
+Click the Download Code Button and click Download ZIP
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/download.PNG)
 
@@ -11,21 +11,21 @@ Extract the folder from the zip file
 
 # Using Anaconda or Miniconda
 ### Using Anaconda
-##### (If you have Anaconda already downloaded you can skip this step)
+##### (If you have Anaconda already downloaded/installed you can skip this step)
 
 Go to this link https://www.anaconda.com/products/individual#Downloads or search Anaconda in a internet browser and look for individual downloads.
 Download the appropriate version for your operating system
-(If you don't know what your OS is and your not using a Mac, its probably windows)
+(If you don't know what your OS is and you're not using a Mac, it's probably Windows)
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/anaconda.PNG)
 
  
 Run the Anaconda install you just downloaded (you can usually just click next as the defaults should work for most users)
 
-### Using Miniconda - for those that just Anaconda for this
+### Using Miniconda - for those that just want to use Anaconda for this
 
-Go to this link https://docs.conda.io/en/latest/miniconda.html or search Miniconda in a internet brwoser.
+Go to this link https://docs.conda.io/en/latest/miniconda.html or search Miniconda in a internet browser.
 Download the appropropriate verison for your operating system
-(If you don't know what your operating system is and your not using a Mac, it's probably Windows)
+(If you don't know what your operating system is and you're not using a Mac, it's probably Windows)
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/miniconda.PNG)
 
@@ -76,7 +76,7 @@ Once you save the file, you can now just run the script.bat file and it should s
 
 Hit enter
 
-If you screen starts to look similar to this, it means that the program is activilty scraping the Ncaa's website and pulling the data. Look at the HTTP requests, (the circled numbers in the image below). You want it to contain numbers in the 200's and 300's. The 200's mean it succesfull reconnected to the webpage and the 300's are redirects, meaning the information wasn't at that specific page, but its getting sent to the correct one now. This program takes a while to run. We are scraping thousands of webpages automatically and have to delay the process slightly or risk getting our IP address temporarily banned from the website. It takes roughly seven minutes to scrape one season for a single sport, so this process can take a while if you are trying to scrape twenty years of data for multiple sports. 
+If you screen starts to look similar to this, it means that the program is actively scraping the Ncaa's website and pulling the data. Look at the HTTP requests, (the circled numbers in the image below). You want it to contain numbers in the 200's and 300's. The 200's mean it succesfull connected to the webpage and the 300's are redirects, meaning the information wasn't at that specific page, but its getting sent to the correct one now. This program takes a while to run. We are scraping thousands of webpages automatically and have to delay the process slightly or risk getting our IP address temporarily suspended from the website. It takes roughly seven minutes to scrape one season for a single sport, so this process can take a while if you are trying to scrape twenty years of data for multiple sports. 
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/work.PNG)
 
@@ -88,11 +88,11 @@ All the scraped data is located in the Scraped folder
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/scraped.PNG)
 
-It contains schedule.csv, which contains the schedule information for the team during that season. Stats.csv contains the team stats for that team for the season (or up until that point if its mid-season). Then each teams player statistics is separate by sport. There is also a <Sport>TeamStats.csv that has the team stats for every season you scraped sorted by sport
+It contains schedule.csv, which contains the schedule information for the team during that season. Stats.csv contains the team stats for that team for the season (or up until that point if its mid-season). Then each teams player statistics is separate by sport. There is also a <Sport>TeamStats.csv that has the team stats for every season you scraped, sorted by sport
 
-![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/csv.PNG)
+![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/403.PNG)
 
-You should move these files to a safe place on your computer or USB. You will have to rename or delete the Scraped folder if you want to run the program again as that is where the csv files will be stored.
+You should move these files to a safe place on your computer or USB. You will have to rename or delete the Scraped folder if you want to run the program again as that is where the csv files will be stored or you risk the data being overwritten.
 
 Lastly, if you don't plan on using this again in the near future, you can uninstall Anaconda or Miniconda (whichever you installed) and deleted the downloaded folders.
 
