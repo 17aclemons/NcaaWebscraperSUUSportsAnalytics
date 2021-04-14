@@ -92,4 +92,39 @@ It contains schedule.csv, which contains the schedule information for the team d
 
 ![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/csv.PNG)
 
+You should move these files to a safe place on your computer or USB. You will have to rename or delete the Scraped folder if you want to run the program again as that is where the csv files will be stored.
+
+Lastly, if you don't plan on using this again in the near future, you can uninstall Anaconda or Miniconda (whichever you installed) and deleted the downloaded folders.
+
 # Problems That Might Arise
+#### 403 Errors
+
+Scraping webpages is basically visiting multiple webpages faster than a human physically can. If it is done fast enough, it will look like a Denial of Service attack and the website will suspend the IP address or risk having their website crash.
+
+If you are scraping to many pages or scraping them to fast your Anaconda Prompt might start to show 403 errors.
+
+![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/list.PNG)
+
+If this does happen, your IP address probably has been suspended and you will need to wait for a while before you start scraping again. Before you try to scrape their data try changing the CONCURRENT_REQUESTS and DOWNLOAD_DELAY in the Ncaa/Ncaa/settings.py file. You can also open this file in Notepad.
+
+![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/defaultSettings.PNG)
+
+By default CONCURRENT_REQUESTS is set to 2 and DOWNLOAD_DELAY is set to 0. CONCURRENT_REQUESTS is the number of webpages you are trying to scrape at the same time and DOWNLOAD_DELAY is how long the program waits before it tries to download the data. This is the fastest I could get it to go without getting suspended. 
+
+But, if you are still getting 403 errors, then try setting CONCURRENT_REQUESTS to 1 and DOWNLOAD_DELAY to 5. 
+
+![Image](https://github.com/17aclemons/NcaaWebscraperSUUSportsAnalytics/blob/main/images/modifiedSettings.PNG)
+
+If you are still getting 403 errors, try scraping a fewer number of sports at one time, or fewer years. But these settings should work most of the time.
+
+After you change your settings or the sports or years you are trying to scrape and have waited awhile, all you have to do is run 
+
+`script.bat`
+
+again and the program will start scraping again.
+
+#### Pausing and Resuming a crawl
+
+As of now, there isn't a way to pause the program as it is running, or at least while maintaining data integrity. So you'll have to do the scraping in one sitting. I recommend doing one sport at a time and moving the files to a separate place after each time you run it. 
+
+
